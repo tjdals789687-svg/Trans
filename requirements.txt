@@ -1,5 +1,13 @@
-flask==3.0.0
-transformers==4.35.0
-torch>=2.2.0
-sentencepiece==0.1.99
-protobuf==4.25.0
+# 번역기 v0.2 (모듈화 버전) 의존성
+# pip install -r requirements.txt
+
+# 웹 프레임워크
+flask>=2.0.0
+
+# 번역 모델
+transformers>=4.30.0
+torch>=2.0.0
+sentencepiece>=0.1.99
+
+# TTS (팀원 작업 완료 후 주석 해제)
+# TTS>=0.22.0

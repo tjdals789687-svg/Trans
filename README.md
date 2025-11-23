@@ -1,204 +1,217 @@
-# 🌐 한국어 지원 번역기 Version 0.1-KR
+# 🌐 다국어 번역기 v0.2 (모듈화 버전)
 
-## ✨ 완성본 에러 해결!
+번역과 TTS 기능을 **별도 파일로 분리**한 모듈화 버전입니다.
 
-완성본에서 "번역 모델을 찾을 수 없습니다" 에러가 나셨죠?
-이 버전은 **한국어를 확실히 지원**합니다!
+## 📁 프로젝트 구조
 
-## 📌 차이점
+```
+translator-v0_2_modular/
+├── app.py              # 🎯 메인 Flask 앱 (라우팅만)
+├── translator.py       # 🌍 번역 모듈 (번역 담당자)
+├── tts.py              # 🔊 TTS 모듈 (TTS 담당자)
+├── config.py           # ⚙️ 공통 설정
+├── requirements.txt    # 📦 의존성
+├── README.md          # 📖 이 문서
+├── run.sh             # 🐧 Linux/Mac 실행
+├── run.bat            # 🪟 Windows 실행
+├── templates/
+│   └── index.html     # 🎨 프론트엔드 UI
+└── static/
+    └── audio/         # 🔊 TTS 오디오 저장
+```
 
-| | Version 0.1 (원본) | Version 0.1-KR (이것!) |
-|---|---|---|
-| **모델** | Helsinki-NLP (en-de) | M2M100 (100개 언어) |
-| **한국어** | ❌ 지원 안 함 | ✅ 지원함! |
-| **모델 크기** | 300MB | 2GB |
-| **다운로드 시간** | 2-3분 | 10-20분 |
-| **지원 언어** | 제한적 | 100개 언어 |
+## 👥 팀 작업 분담
 
-## 🚀 빠른 시작
+| 파일 | 담당 | 설명 |
+|------|------|------|
+| `translator.py` | 번역 담당 | 번역 로직 |
+| `tts.py` | TTS 담당 | 음성 합성 로직 |
+| `app.py` | 공통 | 라우팅 (수정 거의 불필요) |
+| `config.py` | 공통 | 설정값 |
 
-### 1. 설치
+## 🚀 실행 방법
+
+### 1. 의존성 설치
 ```bash
-# 가상환경 생성
-python -m venv venv
-
-# 가상환경 활성화
-# Windows:
-venv\Scripts\activate
-# Mac/Linux:
-source venv/bin/activate
-
-# 패키지 설치
 pip install -r requirements.txt
 ```
 
-### 2. 실행
+### 2. 서버 실행
 ```bash
 python app.py
 ```
 
-⚠️ **중요:** 첫 실행 시 약 2GB 모델을 다운로드합니다!
-- 시간: 10-20분 소요
-- 네트워크: 안정적인 인터넷 필요
-- 디스크: 최소 3GB 여유 공간 필요
-
-### 3. 브라우저에서 접속
+### 3. 브라우저 접속
 ```
 http://localhost:5000
 ```
 
 ---
 
-## ✅ 지원 언어
+## 📦 모듈별 사용법
 
-### 주요 언어 (10개)
-- 🇰🇷 한국어 (ko)
-- 🇺🇸 영어 (en)
-- 🇯🇵 일본어 (ja)
-- 🇨🇳 중국어 (zh)
-- 🇩🇪 독일어 (de)
-- 🇫🇷 프랑스어 (fr)
-- 🇪🇸 스페인어 (es)
-- 🇷🇺 러시아어 (ru)
-- 🇸🇦 아랍어 (ar)
-- 🇮🇳 힌디어 (hi)
+### translator.py (번역)
 
-### + 90개 언어 더!
-태국어, 베트남어, 터키어, 포르투갈어, 이탈리아어, 네덜란드어 등등...
-
----
-
-## 📝 사용 예시
-
-### 영어 → 한국어
-```
-입력: "Hello, how are you?"
-출력: "안녕하세요, 어떻게 지내세요?"
-```
-
-### 한국어 → 영어
-```
-입력: "오늘 날씨가 정말 좋네요"
-출력: "The weather is really nice today"
-```
-
-### 한국어 → 일본어
-```
-입력: "만나서 반갑습니다"
-출력: "お会いできて嬉しいです"
-```
-
----
-
-## 🔧 문제 해결
-
-### Q1. 설치가 너무 오래 걸려요
-A. M2M100 모델이 2GB라서 시간이 걸립니다. 정상이에요!
-```bash
-# 진행 상황 확인
-pip install -v transformers
-```
-
-### Q2. 메모리 부족 에러
-A. 최소 4GB RAM 필요합니다.
-```bash
-# 가벼운 버전 사용 (1.2GB)
-# app.py에서 모델명 변경:
-model_name = "facebook/m2m100_418M"  # 현재
-→
-model_name = "facebook/m2m100_148M"  # 가벼운 버전 (한국어 미지원 가능성)
-```
-
-### Q3. 번역이 느려요
-A. M2M100은 Helsinki-NLP보다 느립니다.
-- 첫 번역: 10-30초
-- 이후: 5-10초
-- 정상입니다!
-
-### Q4. 한국어 외의 다른 언어로 하고 싶어요
-A. 완전히 정상 작동합니다!
 ```python
-# app.py의 기본값 변경
-source_lang = data.get('source_lang', 'en')  # 영어
-target_lang = data.get('target_lang', 'ko')  # 한국어
+import translator
 
-# 예: 독일어 → 프랑스어로 변경
-source_lang = data.get('source_lang', 'de')
-target_lang = data.get('target_lang', 'fr')
+# 번역 실행
+result = translator.translate("Hello!", "en", "ko")
+
+if result['success']:
+    print(result['translated'])  # "안녕!"
+else:
+    print(result['error'])
+
+# 캐시된 모델 확인
+print(translator.get_cached_models())  # ['en-ko']
+```
+
+### tts.py (음성 합성)
+
+```python
+import tts
+
+# TTS 사용 가능 여부 확인
+if tts.is_available():
+    result = tts.synthesize("Hello!", "en")
+    
+    if result['success']:
+        print(result['audio_url'])  # '/static/audio/tts_xxx.wav'
 ```
 
 ---
 
-## 💡 다음 단계
+## 🔊 TTS 팀원 작업 가이드
 
-이제 한국어 번역이 작동하니까:
+### 1단계: config.py 수정
+```python
+# config.py
+TTS_ENABLED = True  # False → True로 변경
+```
 
-### Week 1: UI 개선
-- 언어 선택 드롭다운 추가
-- CSS 디자인 개선
-- 로딩 애니메이션
+### 2단계: tts.py의 synthesize() 함수 구현
 
-### Week 2: 기능 추가
-- 복사 버튼
-- 번역 히스토리
-- 다크모드
+```python
+def synthesize(text: str, language: str = 'en') -> dict:
+    # 1. TTS 임포트
+    from TTS.api import TTS
+    
+    # 2. 모델 선택
+    model_name = TTS_MODELS.get(language, TTS_MODELS['en'])
+    
+    # 3. 모델 로드 (캐싱)
+    if language not in _tts_cache:
+        _tts_cache[language] = TTS(model_name=model_name, progress_bar=False)
+    tts_model = _tts_cache[language]
+    
+    # 4. 파일 경로 생성
+    filename = generate_audio_filename(text, language)
+    audio_path = os.path.join(AUDIO_DIR, filename)
+    
+    # 5. 음성 생성
+    tts_model.tts_to_file(text=text, file_path=audio_path)
+    
+    # 6. 결과 반환
+    return {
+        'success': True,
+        'audio_path': f'static/audio/{filename}',
+        'audio_url': f'/static/audio/{filename}',
+        'error': None
+    }
+```
 
-### Week 3: 고급 기능
-- TTS (음성 합성)
-- 파일 업로드
-- 번역 품질 개선
+### 3단계: requirements.txt 수정
+```
+# TTS 주석 해제
+TTS>=0.22.0
+```
 
----
-
-## 🆚 어떤 버전을 사용해야 할까?
-
-### Version 0.1 (원본) 추천:
-✅ 한국어 필요 없음
-✅ 빠른 테스트 원함
-✅ 인터넷이 느림
-✅ 디스크 공간 부족
-
-### Version 0.1-KR (이것!) 추천:
-✅ 한국어 필수!
-✅ 다국어 필요
-✅ 좋은 인터넷
-✅ 충분한 디스크 공간
-
----
-
-## 📚 참고 자료
-
-- M2M100 모델: https://huggingface.co/facebook/m2m100_418M
-- Transformers 문서: https://huggingface.co/docs/transformers/
-
----
-
-## ⚠️ 주의사항
-
-1. **첫 실행은 시간이 걸립니다**
-   - 2GB 모델 다운로드
-   - 10-20분 소요
-   - 커피 한 잔 하고 오세요 ☕
-
-2. **인터넷 연결 필수**
-   - 첫 실행 시만 필요
-   - 이후엔 오프라인 가능
-
-3. **디스크 공간**
-   - 최소 3GB 여유 필요
-   - 모델 + 캐시
-
-4. **메모리**
-   - 최소 4GB RAM 권장
-   - 8GB 이상 이상적
+### 4단계: 테스트
+```bash
+python tts.py  # 모듈 단독 테스트
+python app.py  # 전체 앱 테스트
+```
 
 ---
 
-## 🎉 성공했나요?
+## 🔌 API 엔드포인트
 
-번역이 잘 되면:
-1. 코드 이해하기
-2. 기능 추가하기  
-3. ROADMAP.md 참고해서 발전시키기
+### POST /translate
+번역 요청 (TTS 포함 가능)
 
-화이팅! 💪
+```json
+// Request
+{
+    "text": "Hello, world!",
+    "source_lang": "en",
+    "target_lang": "ko",
+    "use_tts": true
+}
+
+// Response
+{
+    "original": "Hello, world!",
+    "translated": "안녕, 세상아!",
+    "source_lang": "en",
+    "target_lang": "ko",
+    "audio_url": "/static/audio/tts_xxx.wav"
+}
+```
+
+### POST /tts
+TTS 전용 요청 (번역 없이)
+
+```json
+// Request
+{
+    "text": "안녕하세요",
+    "language": "ko"
+}
+
+// Response
+{
+    "audio_url": "/static/audio/tts_xxx.wav",
+    "text": "안녕하세요",
+    "language": "ko"
+}
+```
+
+### GET /languages
+지원 언어 목록
+
+### GET /health
+서버 상태
+
+---
+
+## ⌨️ 키보드 단축키
+
+| 단축키 | 기능 |
+|--------|------|
+| `Ctrl + Enter` | 번역 실행 |
+| `Esc` | 전체 지우기 |
+
+---
+
+## 🔄 Git 협업 팁
+
+### 충돌 방지
+- 각자 담당 파일만 수정
+- `app.py`는 가급적 수정 X
+
+### 브랜치 전략
+```
+main
+├── feature/translator  (번역 담당)
+└── feature/tts         (TTS 담당)
+```
+
+### 병합 순서
+1. translator 브랜치 먼저 병합
+2. tts 브랜치 병합
+3. 통합 테스트
+
+---
+
+Made with ❤️ using Hugging Face Transformers + Coqui TTS
