@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>번역기 v0.2 - 다국어 지원</title>
+    <title>NLLB 번역기</title>
     <style>
-        /* ============================================
-           전역 스타일
-        ============================================ */
         * {
             margin: 0;
             padding: 0;
@@ -21,15 +18,11 @@
             padding: 20px;
         }
 
-        /* ============================================
-           메인 컨테이너
-        ============================================ */
         .main-container {
             max-width: 900px;
             margin: 0 auto;
         }
 
-        /* 헤더 */
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -56,9 +49,6 @@
             margin-top: 10px;
         }
 
-        /* ============================================
-           카드 스타일
-        ============================================ */
         .card {
             background: white;
             border-radius: 20px;
@@ -67,9 +57,6 @@
             margin-bottom: 20px;
         }
 
-        /* ============================================
-           언어 선택 영역
-        ============================================ */
         .language-selector {
             display: flex;
             align-items: center;
@@ -114,7 +101,6 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
         }
 
-        /* 언어 스왑 버튼 */
         .swap-btn {
             width: 50px;
             height: 50px;
@@ -135,9 +121,6 @@
             transform: rotate(180deg) scale(1.1);
         }
 
-        /* ============================================
-           텍스트 영역
-        ============================================ */
         .text-areas {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -187,7 +170,6 @@
             background: #f9f9f9;
         }
 
-        /* 글자 수 카운터 */
         .char-count {
             text-align: right;
             font-size: 0.8rem;
@@ -195,45 +177,6 @@
             margin-top: 5px;
         }
 
-        /* ============================================
-           옵션 영역
-        ============================================ */
-        .options {
-            margin: 20px 0;
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 10px;
-        }
-
-        .option-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .option-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .option-item label {
-            cursor: pointer;
-            color: #555;
-        }
-
-        .option-item .coming-soon {
-            font-size: 0.75rem;
-            background: #ff9800;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-left: 5px;
-        }
-
-        /* ============================================
-           버튼 영역
-        ============================================ */
         .button-area {
             display: flex;
             gap: 10px;
@@ -277,9 +220,6 @@
             background: #e0e0e0;
         }
 
-        /* ============================================
-           메시지 영역
-        ============================================ */
         .message {
             padding: 12px 20px;
             border-radius: 10px;
@@ -317,9 +257,31 @@
             border-left: 4px solid #42a5f5;
         }
 
-        /* ============================================
-           오디오 플레이어 (TTS용)
-        ============================================ */
+        .options {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .option-item label {
+            cursor: pointer;
+            color: #555;
+            font-size: 1rem;
+        }
+
         .audio-player {
             margin-top: 15px;
             padding: 15px;
@@ -333,15 +295,13 @@
             font-size: 0.9rem;
             color: #555;
             margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .audio-player audio {
             width: 100%;
         }
 
-        /* ============================================
-           로딩 스피너
-        ============================================ */
         .spinner {
             display: inline-block;
             width: 20px;
@@ -357,24 +317,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ============================================
-           푸터
-        ============================================ */
-        footer {
-            text-align: center;
-            color: rgba(255,255,255,0.7);
-            margin-top: 30px;
-            font-size: 0.9rem;
-        }
-
-        footer a {
-            color: white;
-            text-decoration: none;
-        }
-
-        /* ============================================
-           단축키 안내
-        ============================================ */
         .shortcuts {
             margin-top: 15px;
             font-size: 0.8rem;
@@ -388,35 +330,55 @@
             border-radius: 4px;
             font-family: monospace;
         }
+
+        footer {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <div class="main-container">
-        <!-- 헤더 -->
         <header>
-            <h1>🌐 다국어 번역기</h1>
-            <p>Hugging Face Transformers 기반</p>
-            <span class="version-badge">v0.2 - 모듈화 버전</span>
+            <h1>🌐 NLLB 번역기</h1>
+            <p>Meta AI 기반 200개 언어 번역</p>
+            <span class="version-badge">NLLB-200</span>
         </header>
 
-        <!-- 메인 카드 -->
         <div class="card">
-            <!-- 언어 선택 -->
             <div class="language-selector">
                 <div class="lang-box">
                     <label for="sourceLang">원본 언어</label>
                     <select id="sourceLang">
                         <option value="en">🇺🇸 English (영어)</option>
-                        <option value="ko">🇰🇷 한국어</option>
+                        <option value="ko" selected>🇰🇷 한국어</option>
                         <option value="ja">🇯🇵 日本語 (일본어)</option>
                         <option value="zh">🇨🇳 中文 (중국어)</option>
                         <option value="es">🇪🇸 Español (스페인어)</option>
                         <option value="fr">🇫🇷 Français (프랑스어)</option>
                         <option value="de">🇩🇪 Deutsch (독일어)</option>
+                        <option value="ru">🇷🇺 Русский (러시아어)</option>
+                        <option value="ar">🇸🇦 العربية (아랍어)</option>
+                        <option value="hi">🇮🇳 हिन्दी (힌디어)</option>
+                        <option value="pt">🇵🇹 Português (포르투갈어)</option>
+                        <option value="it">🇮🇹 Italiano (이탈리아어)</option>
+                        <option value="nl">🇳🇱 Nederlands (네덜란드어)</option>
+                        <option value="pl">🇵🇱 Polski (폴란드어)</option>
+                        <option value="tr">🇹🇷 Türkçe (터키어)</option>
+                        <option value="vi">🇻🇳 Tiếng Việt (베트남어)</option>
+                        <option value="th">🇹🇭 ไทย (태국어)</option>
+                        <option value="id">🇮🇩 Indonesia (인도네시아어)</option>
                     </select>
                 </div>
 
-                <button class="swap-btn" onclick="swapLanguages()" title="언어 바꾸기">
+                <button type="button" class="swap-btn" id="swapBtn" title="언어 바꾸기">
                     ⇄
                 </button>
 
@@ -424,17 +386,27 @@
                     <label for="targetLang">번역 언어</label>
                     <select id="targetLang">
                         <option value="ko">🇰🇷 한국어</option>
-                        <option value="en">🇺🇸 English (영어)</option>
+                        <option value="en" selected>🇺🇸 English (영어)</option>
                         <option value="ja">🇯🇵 日本語 (일본어)</option>
                         <option value="zh">🇨🇳 中文 (중국어)</option>
                         <option value="es">🇪🇸 Español (스페인어)</option>
                         <option value="fr">🇫🇷 Français (프랑스어)</option>
                         <option value="de">🇩🇪 Deutsch (독일어)</option>
+                        <option value="ru">🇷🇺 Русский (러시아어)</option>
+                        <option value="ar">🇸🇦 العربية (아랍어)</option>
+                        <option value="hi">🇮🇳 हिन्दी (힌디어)</option>
+                        <option value="pt">🇵🇹 Português (포르투갈어)</option>
+                        <option value="it">🇮🇹 Italiano (이탈리아어)</option>
+                        <option value="nl">🇳🇱 Nederlands (네덜란드어)</option>
+                        <option value="pl">🇵🇱 Polski (폴란드어)</option>
+                        <option value="tr">🇹🇷 Türkçe (터키어)</option>
+                        <option value="vi">🇻🇳 Tiếng Việt (베트남어)</option>
+                        <option value="th">🇹🇭 ไทย (태국어)</option>
+                        <option value="id">🇮🇩 Indonesia (인도네시아어)</option>
                     </select>
                 </div>
             </div>
 
-            <!-- 텍스트 영역 -->
             <div class="text-areas">
                 <div class="text-box">
                     <label>
@@ -467,57 +439,47 @@
                 </div>
             </div>
 
-            <!-- 옵션 -->
             <div class="options">
                 <div class="option-item">
                     <input type="checkbox" id="useTTS">
                     <label for="useTTS">
-                        🔊 음성 합성 (TTS) 사용
-                        <span class="coming-soon">팀원 작업 중</span>
+                        🔊 음성 합성 (TTS) 사용 <span style="font-size: 0.85em; color: #666;">(영어, 스페인어, 프랑스어, 독일어 지원)</span>
                     </label>
                 </div>
             </div>
 
-            <!-- 메시지 -->
             <div id="message" class="message"></div>
 
-            <!-- 오디오 플레이어 (TTS용) -->
             <div id="audioPlayer" class="audio-player">
                 <label>🔊 번역 음성</label>
                 <audio id="ttsAudio" controls></audio>
             </div>
 
-            <!-- 버튼 -->
             <div class="button-area">
-                <button class="btn btn-secondary" onclick="clearAll()">
+                <button type="button" class="btn btn-secondary" id="clearBtn">
                     🗑️ 지우기
                 </button>
-                <button class="btn btn-secondary" onclick="copyResult()">
+                <button type="button" class="btn btn-secondary" id="copyBtn">
                     📋 복사
                 </button>
-                <button id="translateBtn" class="btn btn-primary" onclick="translate()">
+                <button type="button" id="translateBtn" class="btn btn-primary">
                     🌐 번역하기
                 </button>
             </div>
 
-            <!-- 단축키 안내 -->
             <div class="shortcuts">
                 <kbd>Ctrl</kbd> + <kbd>Enter</kbd> 번역 &nbsp;|&nbsp;
                 <kbd>Esc</kbd> 지우기
             </div>
         </div>
 
-        <!-- 푸터 -->
         <footer>
-            <p>Hugging Face Transformers + Coqui TTS</p>
-            <p>Helsinki-NLP/opus-mt 모델 사용</p>
+            <p>Powered by Meta's NLLB-200</p>
+            <p>⚠️ 첫 실행 시 모델 다운로드로 5-10분 소요</p>
         </footer>
     </div>
 
     <script>
-        // ============================================
-        // 전역 변수
-        // ============================================
         const inputText = document.getElementById('inputText');
         const outputText = document.getElementById('outputText');
         const sourceLang = document.getElementById('sourceLang');
@@ -529,33 +491,32 @@
         const audioPlayer = document.getElementById('audioPlayer');
         const ttsAudio = document.getElementById('ttsAudio');
 
-        // ============================================
-        // 번역 함수
-        // ============================================
         async function translate() {
             const text = inputText.value.trim();
             
-            // 빈 텍스트 체크
             if (!text) {
                 showMessage('텍스트를 입력해주세요!', 'error');
                 inputText.focus();
                 return;
             }
 
-            // 같은 언어 체크
             if (sourceLang.value === targetLang.value) {
                 showMessage('원본 언어와 번역 언어가 같습니다!', 'error');
                 return;
             }
 
-            // 번역 중 상태
             setLoading(true);
             showMessage('번역 중입니다... 첫 번역은 모델 로딩으로 시간이 걸릴 수 있어요!', 'info');
             outputText.value = '';
             audioPlayer.style.display = 'none';
 
             try {
-                // API 요청
+                console.log('번역 요청:', {
+                    text: text,
+                    source_lang: sourceLang.value,
+                    target_lang: targetLang.value
+                });
+
                 const response = await fetch('/translate', {
                     method: 'POST',
                     headers: {
@@ -569,43 +530,45 @@
                     })
                 });
 
+                console.log('응답 상태:', response.status);
                 const data = await response.json();
+                console.log('응답 데이터:', data);
 
                 if (response.ok) {
-                    // 성공
                     outputText.value = data.translated;
                     showMessage('번역 완료!', 'success');
-
-                    // TTS 오디오가 있으면 재생
+                    
+                    // TTS 오디오 처리
                     if (data.audio_url) {
                         ttsAudio.src = data.audio_url;
                         audioPlayer.style.display = 'block';
+                        console.log('🔊 TTS 오디오 로드:', data.audio_url);
+                    } else {
+                        audioPlayer.style.display = 'none';
+                    }
+                    
+                    // TTS 에러가 있으면 표시 (번역은 성공)
+                    if (data.tts_error) {
+                        console.warn('TTS 경고:', data.tts_error);
                     }
                 } else {
-                    // 서버 에러
                     showMessage(data.error || '번역 중 오류가 발생했습니다.', 'error');
+                    audioPlayer.style.display = 'none';
                 }
 
             } catch (error) {
-                // 네트워크 에러
-                console.error('Error:', error);
-                showMessage('서버와 통신 중 오류가 발생했습니다.', 'error');
+                console.error('에러:', error);
+                showMessage('서버와 통신 중 오류가 발생했습니다: ' + error.message, 'error');
             } finally {
                 setLoading(false);
             }
         }
 
-        // ============================================
-        // 유틸리티 함수
-        // ============================================
-        
-        // 언어 스왑
         function swapLanguages() {
             const temp = sourceLang.value;
             sourceLang.value = targetLang.value;
             targetLang.value = temp;
 
-            // 텍스트도 스왑 (결과가 있으면)
             if (outputText.value) {
                 const tempText = inputText.value;
                 inputText.value = outputText.value;
@@ -614,7 +577,6 @@
             }
         }
 
-        // 결과 복사
         function copyResult() {
             const text = outputText.value;
             if (!text) {
@@ -627,23 +589,20 @@
                 .catch(() => showMessage('복사에 실패했습니다.', 'error'));
         }
 
-        // 전체 지우기
         function clearAll() {
             inputText.value = '';
             outputText.value = '';
-            audioPlayer.style.display = 'none';
             messageDiv.style.display = 'none';
+            audioPlayer.style.display = 'none';
             updateCharCount();
             inputText.focus();
         }
 
-        // 메시지 표시
         function showMessage(text, type) {
             messageDiv.textContent = text;
             messageDiv.className = 'message ' + type;
             messageDiv.style.display = 'block';
 
-            // 성공 메시지는 3초 후 숨김
             if (type === 'success') {
                 setTimeout(() => {
                     messageDiv.style.display = 'none';
@@ -651,7 +610,6 @@
             }
         }
 
-        // 로딩 상태 설정
         function setLoading(isLoading) {
             translateBtn.disabled = isLoading;
             if (isLoading) {
@@ -661,35 +619,47 @@
             }
         }
 
-        // 글자 수 업데이트
         function updateCharCount() {
             charCount.textContent = inputText.value.length;
         }
 
-        // ============================================
-        // 이벤트 리스너
-        // ============================================
-        
-        // 글자 수 카운터
         inputText.addEventListener('input', updateCharCount);
 
-        // 키보드 단축키
         document.addEventListener('keydown', (e) => {
-            // Ctrl+Enter: 번역
             if (e.ctrlKey && e.key === 'Enter') {
                 e.preventDefault();
                 translate();
             }
             
-            // Esc: 지우기
             if (e.key === 'Escape') {
                 clearAll();
             }
         });
 
-        // 페이지 로드 시 입력창에 포커스
         window.addEventListener('load', () => {
             inputText.focus();
+            console.log('✅ 페이지 로드 완료!');
+            
+            // 버튼 이벤트 리스너 추가
+            document.getElementById('translateBtn').addEventListener('click', () => {
+                console.log('🔘 번역 버튼 클릭됨!');
+                translate();
+            });
+            
+            document.getElementById('clearBtn').addEventListener('click', () => {
+                console.log('🔘 지우기 버튼 클릭됨!');
+                clearAll();
+            });
+            
+            document.getElementById('copyBtn').addEventListener('click', () => {
+                console.log('🔘 복사 버튼 클릭됨!');
+                copyResult();
+            });
+            
+            document.getElementById('swapBtn').addEventListener('click', () => {
+                console.log('🔘 언어 스왑 버튼 클릭됨!');
+                swapLanguages();
+            });
         });
     </script>
 </body>

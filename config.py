@@ -1,38 +1,12 @@
-# config.py
-# 공통 설정값 관리
+# 기본 설정
+MAX_TEXT_LENGTH = 5000
 
-import os
+# 서버 설정
+SERVER_HOST = '0.0.0.0'
+SERVER_PORT = 5000
+DEBUG_MODE = False
 
-# ============================================
-# 경로 설정
-# ============================================
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-AUDIO_DIR = os.path.join(BASE_DIR, 'static', 'audio')
-
-# 오디오 폴더 생성
-os.makedirs(AUDIO_DIR, exist_ok=True)
-
-# ============================================
-# 지원 언어 설정
-# ============================================
-
-# 지원하는 언어 쌍 목록
-SUPPORTED_LANGUAGE_PAIRS = {
-    'en-ko': '영어 → 한국어',
-    'ko-en': '한국어 → 영어',
-    'en-ja': '영어 → 일본어',
-    'ja-en': '일본어 → 영어',
-    'en-zh': '영어 → 중국어',
-    'zh-en': '중국어 → 영어',
-    'en-es': '영어 → 스페인어',
-    'es-en': '스페인어 → 영어',
-    'en-fr': '영어 → 프랑스어',
-    'fr-en': '프랑스어 → 영어',
-    'en-de': '영어 → 독일어',
-    'de-en': '독일어 → 영어',
-}
-
-# 언어 코드 → 언어 이름 매핑
+# 언어 설정
 LANGUAGE_NAMES = {
     'en': 'English (영어)',
     'ko': '한국어',
@@ -43,27 +17,14 @@ LANGUAGE_NAMES = {
     'de': 'Deutsch (독일어)',
 }
 
-# ============================================
-# 서버 설정
-# ============================================
-SERVER_HOST = '0.0.0.0'
-SERVER_PORT = 5000
-DEBUG_MODE = True
+# TTS 설정
+TTS_ENABLED = True
+AUDIO_DIR = 'static/audio'
 
-# ============================================
-# 번역 설정
-# ============================================
-MAX_TEXT_LENGTH = 5000  # 최대 입력 글자 수
-MAX_TOKEN_LENGTH = 512  # 모델 최대 토큰 수
-
-# ============================================
-# TTS 설정 (팀원이 수정할 부분)
-# ============================================
-TTS_ENABLED = True  # TTS 기능 활성화 여부 (팀원이 True로 변경)
-
-# TTS 모델 매핑 (언어 코드 → 모델명)
+# TTS 모델 (단일 언어 모델만)
 TTS_MODELS = {
     'en': 'tts_models/en/ljspeech/tacotron2-DDC',
-    'ko': 'tts_models/ko/cv/vits',
-    # 팀원이 추가 언어 모델 설정
+    'es': 'tts_models/es/css10/vits',
+    'fr': 'tts_models/fr/css10/vits',
+    'de': 'tts_models/de/thorsten/tacotron2-DDC',
 }
