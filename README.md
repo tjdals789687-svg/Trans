@@ -453,3 +453,5 @@ LANGUAGE_NAMES = {
 - **NLLB 모델**: facebook/nllb-200-distilled-600M
 
 ---
+
+**즐거운 번역 되세요! 🌐**

@@ -348,7 +348,8 @@
 <body>
     <div class="main-container">
         <header>
-            <h1>🌐 NLLB 번역기</h1>
+            <h1>NLLB 번역기</h1>
+            <p>Meta AI 기반 200개 언어 번역</p>
             <span class="version-badge">NLLB-200</span>
         </header>
 
@@ -356,26 +357,7 @@
             <div class="language-selector">
                 <div class="lang-box">
                     <label for="sourceLang">원본 언어</label>
-                    <select id="sourceLang">
-                        <option value="en">English (영어)</option>
-                        <option value="ko" selected>한국어</option>
-                        <option value="ja">日本語 (일본어)</option>
-                        <option value="zh">中文 (중국어)</option>
-                        <option value="es">Español (스페인어)</option>
-                        <option value="fr">Français (프랑스어)</option>
-                        <option value="de">Deutsch (독일어)</option>
-                        <option value="ru">Русский (러시아어)</option>
-                        <option value="ar">العربية (아랍어)</option>
-                        <option value="hi">हिन्दी (힌디어)</option>
-                        <option value="pt">Português (포르투갈어)</option>
-                        <option value="it">Italiano (이탈리아어)</option>
-                        <option value="nl">Nederlands (네덜란드어)</option>
-                        <option value="pl">Polski (폴란드어)</option>
-                        <option value="tr">Türkçe (터키어)</option>
-                        <option value="vi">Tiếng Việt (베트남어)</option>
-                        <option value="th">ไทย (태국어)</option>
-                        <option value="id">Indonesia (인도네시아어)</option>
-                    </select>
+                    <select id="sourceLang"></select>
                 </div>
 
                 <button type="button" class="swap-btn" id="swapBtn" title="언어 바꾸기">
@@ -384,35 +366,13 @@
 
                 <div class="lang-box">
                     <label for="targetLang">번역 언어</label>
-                    <select id="targetLang">
-                        <option value="ko">한국어</option>
-                        <option value="en" selected>English (영어)</option>
-                        <option value="ja">日本語 (일본어)</option>
-                        <option value="zh">中文 (중국어)</option>
-                        <option value="es">Español (스페인어)</option>
-                        <option value="fr">Français (프랑스어)</option>
-                        <option value="de">Deutsch (독일어)</option>
-                        <option value="ru">Русский (러시아어)</option>
-                        <option value="ar">العربية (아랍어)</option>
-                        <option value="hi">हिन्दी (힌디어)</option>
-                        <option value="pt">Português (포르투갈어)</option>
-                        <option value="it">Italiano (이탈리아어)</option>
-                        <option value="nl">Nederlands (네덜란드어)</option>
-                        <option value="pl">Polski (폴란드어)</option>
-                        <option value="tr">Türkçe (터키어)</option>
-                        <option value="vi">Tiếng Việt (베트남어)</option>
-                        <option value="th">ไทย (태국어)</option>
-                        <option value="id">Indonesia (인도네시아어)</option>
-                    </select>
+                    <select id="targetLang"></select>
                 </div>
             </div>
 
             <div class="text-areas">
                 <div class="text-box">
-                    <label>
-                        <span>📝</span>
-                        <span>원본 텍스트</span>
-                    </label>
+                    <label>원본 텍스트</label>
                     <textarea 
                         id="inputText" 
                         placeholder="번역할 텍스트를 입력하세요..."
@@ -424,10 +384,7 @@
                 </div>
 
                 <div class="text-box">
-                    <label>
-                        <span>🌍</span>
-                        <span>번역 결과</span>
-                    </label>
+                    <label>번역 결과</label>
                     <textarea 
                         id="outputText" 
                         placeholder="번역 결과가 여기에 표시됩니다..."
@@ -443,7 +400,7 @@
                 <div class="option-item">
                     <input type="checkbox" id="useTTS">
                     <label for="useTTS">
-                        🔊 음성 합성 (TTS) 사용 <span style="font-size: 0.85em; color: #666;">(영어, 스페인어, 프랑스어, 독일어 지원)</span>
+                        음성 합성 (TTS) 사용 <span style="font-size: 0.85em; color: #666;">(영어, 스페인어, 프랑스어, 독일어 지원)</span>
                     </label>
                 </div>
             </div>
@@ -451,19 +408,19 @@
             <div id="message" class="message"></div>
 
             <div id="audioPlayer" class="audio-player">
-                <label>🔊 번역 음성</label>
+                <label>번역 음성</label>
                 <audio id="ttsAudio" controls></audio>
             </div>
 
             <div class="button-area">
                 <button type="button" class="btn btn-secondary" id="clearBtn">
-                    🗑️ 지우기
+                    지우기
                 </button>
                 <button type="button" class="btn btn-secondary" id="copyBtn">
-                    📋 복사
+                    복사
                 </button>
                 <button type="button" id="translateBtn" class="btn btn-primary">
-                    🌐 번역하기
+                    번역하기
                 </button>
             </div>
 
@@ -475,23 +432,68 @@
 
         <footer>
             <p>Powered by Meta's NLLB-200</p>
-            <p>⚠️ 첫 실행 시 모델 다운로드로 5-10분 소요</p>
+            <p>첫 실행 시 모델 다운로드로 5-10분 소요</p>
         </footer>
     </div>
 
     <script>
-        const inputText = document.getElementById('inputText');
-        const outputText = document.getElementById('outputText');
-        const sourceLang = document.getElementById('sourceLang');
-        const targetLang = document.getElementById('targetLang');
-        const translateBtn = document.getElementById('translateBtn');
-        const messageDiv = document.getElementById('message');
-        const charCount = document.getElementById('charCount');
-        const useTTS = document.getElementById('useTTS');
-        const audioPlayer = document.getElementById('audioPlayer');
-        const ttsAudio = document.getElementById('ttsAudio');
+        // 언어 목록
+        const languages = [
+            {code: 'en', name: 'English (영어)'},
+            {code: 'ko', name: '한국어'},
+            {code: 'ja', name: '日本語 (일본어)'},
+            {code: 'zh', name: '中文 (중국어)'},
+            {code: 'es', name: 'Español (스페인어)'},
+            {code: 'fr', name: 'Français (프랑스어)'},
+            {code: 'de', name: 'Deutsch (독일어)'},
+            {code: 'ru', name: 'Русский (러시아어)'},
+            {code: 'ar', name: 'العربية (아랍어)'},
+            {code: 'hi', name: 'हिन्दी (힌디어)'},
+            {code: 'pt', name: 'Português (포르투갈어)'},
+            {code: 'it', name: 'Italiano (이탈리아어)'},
+            {code: 'nl', name: 'Nederlands (네덜란드어)'},
+            {code: 'pl', name: 'Polski (폴란드어)'},
+            {code: 'tr', name: 'Türkçe (터키어)'},
+            {code: 'vi', name: 'Tiếng Việt (베트남어)'},
+            {code: 'th', name: 'ไทย (태국어)'},
+            {code: 'id', name: 'Indonesia (인도네시아어)'}
+        ];
 
-        async function translate() {
+        let inputText, outputText, sourceLang, targetLang, translateBtn, messageDiv, charCount, useTTS, audioPlayer, ttsAudio;
+
+        // 언어 옵션 초기화
+        function initLanguages() {
+            languages.forEach(lang => {
+                const option1 = document.createElement('option');
+                option1.value = lang.code;
+                option1.textContent = lang.name;
+                if (lang.code === 'ko') option1.selected = true;
+                sourceLang.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = lang.code;
+                option2.textContent = lang.name;
+                if (lang.code === 'en') option2.selected = true;
+                targetLang.appendChild(option2);
+            });
+        }
+
+        // DOM 로드 후 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            inputText = document.getElementById('inputText');
+            outputText = document.getElementById('outputText');
+            sourceLang = document.getElementById('sourceLang');
+            targetLang = document.getElementById('targetLang');
+            translateBtn = document.getElementById('translateBtn');
+            messageDiv = document.getElementById('message');
+            charCount = document.getElementById('charCount');
+            useTTS = document.getElementById('useTTS');
+            audioPlayer = document.getElementById('audioPlayer');
+            ttsAudio = document.getElementById('ttsAudio');
+
+            initLanguages();
+
+            async function translate() {
             const text = inputText.value.trim();
             
             if (!text) {
@@ -511,7 +513,6 @@
             audioPlayer.style.display = 'none';
 
             try {
-                console.log('번역 요청:', {
                     text: text,
                     source_lang: sourceLang.value,
                     target_lang: targetLang.value
@@ -530,29 +531,16 @@
                     })
                 });
 
-                console.log('응답 상태:', response.status);
                 const data = await response.json();
-                console.log('응답 데이터:', data);
 
                 if (response.ok) {
                     outputText.value = data.translated;
                     showMessage('번역 완료!', 'success');
                     
-                    // 챗봇 히스토리에 저장
-                    if (typeof saveChatbotTranslation === 'function') {
-                        saveChatbotTranslation(
-                            text,
-                            data.translated,
-                            sourceLang.value,
-                            targetLang.value
-                        );
-                    }
-                    
                     // TTS 오디오 처리
                     if (data.audio_url) {
                         ttsAudio.src = data.audio_url;
                         audioPlayer.style.display = 'block';
-                        console.log('🔊 TTS 오디오 로드:', data.audio_url);
                     } else {
                         audioPlayer.style.display = 'none';
                     }
@@ -625,7 +613,7 @@
             if (isLoading) {
                 translateBtn.innerHTML = '<span class="spinner"></span>번역 중...';
             } else {
-                translateBtn.innerHTML = '🌐 번역하기';
+                translateBtn.innerHTML = '번역하기';
             }
         }
 
@@ -633,43 +621,37 @@
             charCount.textContent = inputText.value.length;
         }
 
-        inputText.addEventListener('input', updateCharCount);
+            // 이벤트 리스너 등록
+            inputText.addEventListener('input', updateCharCount);
 
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'Enter') {
-                e.preventDefault();
-                translate();
-            }
-            
-            if (e.key === 'Escape') {
-                clearAll();
-            }
-        });
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    translate();
+                }
+                
+                if (e.key === 'Escape') {
+                    clearAll();
+                }
+            });
 
-        window.addEventListener('load', () => {
-            inputText.focus();
-            console.log('✅ 페이지 로드 완료!');
-            
-            // 버튼 이벤트 리스너 추가
-            document.getElementById('translateBtn').addEventListener('click', () => {
-                console.log('🔘 번역 버튼 클릭됨!');
+            translateBtn.addEventListener('click', () => {
                 translate();
             });
             
             document.getElementById('clearBtn').addEventListener('click', () => {
-                console.log('🔘 지우기 버튼 클릭됨!');
                 clearAll();
             });
             
             document.getElementById('copyBtn').addEventListener('click', () => {
-                console.log('🔘 복사 버튼 클릭됨!');
                 copyResult();
             });
             
             document.getElementById('swapBtn').addEventListener('click', () => {
-                console.log('🔘 언어 스왑 버튼 클릭됨!');
                 swapLanguages();
             });
+
+            inputText.focus();
         });
     </script>
     <script src="/static/js/chatbot.js"></script>
