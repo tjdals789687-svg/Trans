@@ -26,7 +26,7 @@ if api_key and endpoint and deployment:
 else:
     openai_client = None
     AI_ENABLED = False
-    print("⚠️ Azure OpenAI 설정이 없습니다. AI 챗봇 기능이 비활성화됩니다.")
+    print(" Azure OpenAI 설정이 없습니다. AI 챗봇 기능이 비활성화됩니다.")
 
 @app.route('/')
 def home():
@@ -119,12 +119,11 @@ def chatbot_api():
         }), 500
 
 def generate_ai_response(message: str) -> str:
-    """Azure OpenAI로 응답 생성"""
     try:
         system_msg = """당신은 번역기 도우미 챗봇입니다. 
-사용자의 번역, 언어 학습, 문법 체크 등에 관한 질문에 친절하게 답변해주세요.
-간단명료하게 답변하되, 도움이 되는 정보를 제공하세요.
-답변은 200자 이내로 작성해주세요."""
+        사용자의 번역, 언어 학습, 문법 체크 등에 관한 질문에 친절하게 답변해주세요.
+        간단명료하게 답변하되, 도움이 되는 정보를 제공하세요.
+        답변은 200자 이내로 작성해주세요."""
         
         response = openai_client.chat.completions.create(
             model=deployment,

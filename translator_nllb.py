@@ -4,15 +4,26 @@ import torch
 # NLLB 모델
 MODEL_NAME = 'facebook/nllb-200-distilled-600M'
 
-# 언어 코드
+# 언어 코드 (NLLB-200)
 LANGUAGE_CODES = {
-    'en': 'eng_Latn',
-    'ko': 'kor_Hang',
-    'ja': 'jpn_Jpan',
-    'zh': 'zho_Hans',
-    'es': 'spa_Latn',
-    'fr': 'fra_Latn',
-    'de': 'deu_Latn',
+    'en': 'eng_Latn',      # 영어
+    'ko': 'kor_Hang',      # 한국어
+    'ja': 'jpn_Jpan',      # 일본어
+    'zh': 'zho_Hans',      # 중국어 (간체)
+    'es': 'spa_Latn',      # 스페인어
+    'fr': 'fra_Latn',      # 프랑스어
+    'de': 'deu_Latn',      # 독일어
+    'ru': 'rus_Cyrl',      # 러시아어
+    'ar': 'arb_Arab',      # 아랍어 (표준)
+    'hi': 'hin_Deva',      # 힌디어
+    'pt': 'por_Latn',      # 포르투갈어
+    'it': 'ita_Latn',      # 이탈리아어
+    'nl': 'nld_Latn',      # 네덜란드어
+    'pl': 'pol_Latn',      # 폴란드어
+    'tr': 'tur_Latn',      # 터키어
+    'vi': 'vie_Latn',      # 베트남어
+    'th': 'tha_Thai',      # 태국어
+    'id': 'ind_Latn',      # 인도네시아어
 }
 
 _model = None
